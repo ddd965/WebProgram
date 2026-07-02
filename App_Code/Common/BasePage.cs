@@ -38,11 +38,12 @@ namespace HRMS.Common
         protected override void OnInit(EventArgs e)
         {
             base.OnInit(e);
-            // 跳过登录页自身
+            // 跳过登录页和注册页自身
             string page = System.IO.Path.GetFileName(Request.Path).ToLower();
-            if (page == "login.aspx") return;
+            if (page == "login.aspx" || page == "register.aspx") return;
 
-            if (Session["UserId"] == null)
+            // 使用 ASP.NET Identity 认证状态判断是否登录
+            if (!Request.IsAuthenticated)
             {
                 Response.Redirect("~/Account/Login.aspx");
             }

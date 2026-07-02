@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="SiteMaster" %>
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="SiteMaster" %>
 
 <!DOCTYPE html>
 
@@ -53,6 +53,30 @@
                         <li><a runat="server" href="~/">主页</a></li>
                         <li><a runat="server" href="~/About">关于</a></li>
                         <li><a runat="server" href="~/Contact">联系方式</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">休假管理 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a runat="server" href="~/LeaveManagement/LeaveTypeMgr">休假类型设置</a></li>
+                                <li><a runat="server" href="~/LeaveManagement/LeaveApply">休假申请</a></li>
+                                <li><a runat="server" href="~/LeaveManagement/LeaveStat">休假统计</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">人事考勤 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a runat="server" href="~/Attendance/AttendanceParam">考勤参数设置</a></li>
+                                <li><a runat="server" href="~/Attendance/CheckIn">今日打卡</a></li>
+                                <li><a runat="server" href="~/Attendance/AttendanceQuery">考勤记录查询</a></li>
+                                <li><a runat="server" href="~/Attendance/AttendanceStat">考勤统计</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">加班管理 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a runat="server" href="~/Overtime/OvertimeEdit">加班录入</a></li>
+                                <li><a runat="server" href="~/Overtime/OvertimeStat">加班统计</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>

@@ -1,4 +1,4 @@
-using System;
+﻿﻿﻿﻿using System;
 using System.Collections.Generic;
 using System.Transactions;
 using HRMS.Model;
@@ -35,13 +35,22 @@ namespace HRMS.BLL
         public static decimal CalculateOvertimePay(decimal baseSalary, decimal otHours, string otType)
         {
             decimal hourlyRate = baseSalary / 21.75m / 8m;
-            decimal multiplier = otType switch
+            decimal multiplier;
+            switch (otType)
             {
-                "工作日" => 1.5m,
-                "周末" => 2.0m,
-                "节假日" => 3.0m,
-                _ => 1.0m
-            };
+                case "工作日":
+                    multiplier = 1.5m;
+                    break;
+                case "周末":
+                    multiplier = 2.0m;
+                    break;
+                case "节假日":
+                    multiplier = 3.0m;
+                    break;
+                default:
+                    multiplier = 1.0m;
+                    break;
+            }
             return Math.Round(hourlyRate * otHours * multiplier, 2);
         }
     }

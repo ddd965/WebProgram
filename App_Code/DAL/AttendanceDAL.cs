@@ -99,17 +99,20 @@ namespace HRMS.DAL
         /// </summary>
         public static System.Data.DataTable StatByDeptAndMonth(int? deptId, int year, int month)
         {
+            DateTime startDate = new DateTime(year, month, 1);
+            DateTime endDate = startDate.AddMonths(1);
+
             var sql = new StringBuilder();
             sql.Append(@"SELECT e.EmpId, e.EmpNo, e.EmpName, d.DeptName,
-                          SUM(CASE WHEN a.Status='正常' THEN 1 ELSE 0 END) AS NormalDays,
-                          SUM(CASE WHEN a.Status='迟到' THEN 1 ELSE 0 END) AS LateCount,
-                          SUM(CASE WHEN a.Status='早退' THEN 1 ELSE 0 END) AS EarlyCount,
-                          SUM(CASE WHEN a.Status='缺勤' THEN 1 ELSE 0 END) AS AbsentCount,
-                          SUM(CASE WHEN a.Status='请假' THEN 1 ELSE 0 END) AS LeaveCount
+                          SUM(CASE WHEN a.Status=N'正常' THEN 1 ELSE 0 END) AS NormalDays,
+                          SUM(CASE WHEN a.Status=N'迟到' THEN 1 ELSE 0 END) AS LateCount,
+                          SUM(CASE WHEN a.Status=N'早退' THEN 1 ELSE 0 END) AS EarlyCount,
+                          SUM(CASE WHEN a.Status=N'缺勤' THEN 1 ELSE 0 END) AS AbsentCount,
+                          SUM(CASE WHEN a.Status=N'请假' THEN 1 ELSE 0 END) AS LeaveCount
                          FROM Employee e
                          LEFT JOIN Department d ON e.DeptId = d.DeptId
                          LEFT JOIN Attendance a ON e.EmpId = a.EmpId
-                           AND YEAR(a.AttDate)=@Year AND MONTH(a.AttDate)=@Month
+                           AND a.AttDate >= @StartDate AND a.AttDate < @EndDate
                          WHERE 1=1");
             var parameters = new List<SqlParameter>();
             if (deptId.HasValue)
@@ -119,8 +122,8 @@ namespace HRMS.DAL
             }
             sql.Append(" GROUP BY e.EmpId, e.EmpNo, e.EmpName, d.DeptName");
 
-            parameters.Add(new SqlParameter("@Year", year));
-            parameters.Add(new SqlParameter("@Month", month));
+            parameters.Add(new SqlParameter("@StartDate", startDate));
+            parameters.Add(new SqlParameter("@EndDate", endDate));
             return DBHelper.ExecuteDataTable(sql.ToString(), parameters.ToArray());
         }
 
