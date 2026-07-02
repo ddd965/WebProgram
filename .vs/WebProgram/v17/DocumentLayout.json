@@ -1,0 +1,68 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Webkeshe\\WebProgram-branch_A\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\Webkeshe\\WebProgram-branch_A|d:\\webkeshe\\webprogram-branch_a\\document\\hrms_schema.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
+      "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\Webkeshe\\WebProgram-branch_A|solutionrelative:document\\hrms_schema.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\Webkeshe\\WebProgram-branch_A|d:\\webkeshe\\webprogram-branch_a\\document\\hrms_schema.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame",
+      "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\Webkeshe\\WebProgram-branch_A|solutionrelative:document\\hrms_schema.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 288,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "HRMS_Schema.sql ",
+              "DocumentMoniker": "D:\\Webkeshe\\WebProgram-branch_A\\Document\\HRMS_Schema.sql",
+              "RelativeDocumentMoniker": "Document\\HRMS_Schema.sql",
+              "ToolTip": "D:\\Webkeshe\\WebProgram-branch_A\\Document\\HRMS_Schema.sql",
+              "RelativeToolTip": "Document\\HRMS_Schema.sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2026-07-02T06:47:12.54Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

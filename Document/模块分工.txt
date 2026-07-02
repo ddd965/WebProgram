@@ -1,0 +1,142 @@
+（一）课程设计说明
+1. 设计题目
+基于 ASP.NET 三层架构的人事管理系统（HRMS）
+
+2. 设计任务与要求
+(1)	总体任务：以 3 人为一小组，采用 ASP.NET 三层架构（UI/BLL/DAL）开发一套完整的企业人事管理系统，实现员工信息、部门组织、休假申请、考勤打卡、加班登记、工资核算、事件日志及报表打印 8 大核心业务模块。
+(2)	技术要求：
+	采用经典三层架构：表现层（ASP.NET Web Forms）→ 业务逻辑层（C# 类库）→ 数据访问层（LINQ to SQL / ADO.NET），辅以独立的实体层（Model）。
+	数据库使用 SQL Server（LocalDB / MSSQLLocalDB 皆可），所有业务字段设置合理的 NOT NULL、唯一约束、检查约束；外键关系明确配置级联删除 / 修改规则（CASCADE / SET NULL），保证数据完整性与清理便利性。
+	每人均需承担若干模块，所有模块需完成增删改查、条件查询、分页、数据验证、操作日志记录。
+	报表模块支持浏览器在线打印（CSS @media print）。
+(3)	交付要求：完整的 Visual Studio 解决方案、SQL 建表脚本与初始化数据、关键模块运行截图。
+3. 开发环境说明
+类别	详情
+操作系统	Windows 10 / 11
+IDE	Visual Studio 2017 / 2019 / 2022（Community 即可）
+开发框架	.NET Framework 4.6.1 ~ 4.8
+Web 技术栈	ASP.NET Web Forms（与教材《ASP.NET 上机实验指导（第 3 版 微课版）》一致）
+语言	C# 7.0+
+数据库	Microsoft SQL Server（LocalDB 或 Express 版）
+数据访问	LINQ to SQL（.dbml 设计器） / 或 ADO.NET + DBHelper 通用类
+客户端验证	ASP.NET 验证控件（RequiredFieldValidator / RegularExpressionValidator 等）
+AJAX 增强	AjaxControlToolkit（可选，用于日历、模态框等扩展器）
+报表打印	GridView + CSS 打印样式（或 Crystal Reports / RDLC，按需选择）
+版本管理	Git（推荐）
+浏览器	Chrome / Edge 最新版
+
+
+
+（二）功能需求分析
+围绕人事业务 8 大模块，自顶向下的功能需求分解如下：
+
+1. 员工管理模块
+	员工信息录入：录入工号、姓名、性别、出生日期、身份证号、入职日期、所属部门、职位、联系电话、邮箱、地址，并上传员工头像照片（FileUpload 控件，路径写入 Employee.PhotoPath）。
+	员工信息修改：支持对任意字段（含照片）的编辑与保存。
+	员工信息删除：支持物理删除（级联清除该员工的账号、休假、考勤、加班、工资等从表记录）；或逻辑删除（将 Status 置为"离职"）。
+	员工信息查询：按工号、姓名、部门、职位、在职状态等多条件组合查询，支持分页（GridView + DataPager）。
+	照片管理：上传时校验大小（≤ 2MB）与格式（jpg/png/gif），自动生成预览缩略图。
+
+2. 部门管理模块
+	部门信息录入：录入部门名称、上级部门（DropDownList 绑定）、部门经理、部门描述。
+	部门信息修改：支持部门更名、调整上下级、更换经理。
+	部门信息删除：删除前自动检查是否存在子部门或在职员工（受外键 SET NULL 影响：删部门不会删员工，只会把员工 DeptId 置空）。
+	树状视图查看：使用 TreeView 控件递归加载 Department.ParentId 自关联数据，展开 / 收起任意层级，点击节点跳转该部门员工列表。
+
+3. 休假管理模块
+	休假设置：对 LeaveType 表进行增删改查，配置年假 / 病假 / 事假 / 婚假 / 产假 / 陪产假 / 丧假等类型及其年度默认天数、是否需审批。
+	员工休假申请录入：选择员工、休假类型、起止日期，系统自动调用 CalculateLeaveDays 计算工作日天数（剔除周末），填写请假原因，保存后状态默认为"待审批"。
+	休假查询：按员工、部门、时间段、休假类型、审批状态多条件查询。
+	休假审批：部门经理 / 管理员将申请状态改为"已批准 / 已拒绝 / 已取消"，并写入审批人。
+	统计汇总：按部门 / 员工 / 年度维度，用 SQL SUM(LeaveDays) GROUP BY 统计休假天数，配 Chart 控件饼图 / 柱状图展示。
+
+4. 事件日志管理模块
+	日志自动记录：在 BLL 层关键操作（登录、增删改、审批、导出）处调用 WriteLog(userName, eventName, desc) 统一写入 EventLog 表，自动记录 IP 与时间。
+	按用户名查询：支持模糊检索指定账号的所有操作。
+	按时间范围查询：双日期控件选择起止日，检索 EventTime 区间内日志。
+	按事件名查询：下拉框绑定事件类型（登录 / 新增 / 修改 / 删除 / 审批 / 导出 等）。
+	日志删除：支持单条删除与按时间批量删除（如清理 6 个月前的日志）。
+
+5. 人事考勤模块
+	考勤参数设置：读写 AttendanceSetting（SettingId 恒为 1），配置上班时间、下班时间、迟到宽限分钟、早退宽限分钟、午休起止。
+	当日考勤（打卡）：员工点击"签到 / 签退"按钮，系统取当前时间写入 Attendance；并依据考勤参数调用 GetAttendanceStatus 自动判定"正常 / 迟到 / 早退 / 缺勤"。每人每天仅 1 条记录（UNIQUE(EmpId, AttDate)）。
+	考勤记录查询：按月查看指定员工的每日签到 / 签退 / 状态明细。
+	考勤统计：按员工 / 部门 / 月份统计正常天数、迟到次数、早退次数、缺勤天数、请假天数，导出考勤汇总表。
+
+6. 加班管理模块
+	加班信息录入：录入员工、加班日期、起止时间、加班类型（工作日 / 周末 / 节假日）、加班事由，系统自动计算 OtHours。
+	加班信息查询：按员工、时间段、类型、审批状态组合查询。
+	加班汇总：按月度 / 季度 / 部门 SUM(OtHours) 汇总，结合工资模块计算加班费（工作日 1.5×、周末 2×、节假日 3×）或调休余额。
+
+7. 工资管理模块
+	发薪记录录入：选择员工与薪资月份（格式 YYYY-MM），录入基本工资、绩效、奖金、加班费、五险一金、公积金、个税、其他扣款，系统按公式自动计算 NetSalary = Base + Perf + Bonus + OtPay − Insur − Fund − Tax − Deduction 并入库；UNIQUE(EmpId, SalaryMonth) 防止重复发放。
+	特定员工薪酬查询：输入工号 / 姓名 + 月份范围，列出其历史工资明细。
+	发薪历史汇总：按部门 / 全公司 / 月份 SUM(NetSalary) 汇总薪资总额、人均工资。
+
+8. 报表打印模块
+	员工花名册报表：以部门分组，列出全体员工基本信息（含头像缩略列）。
+	部门人员清单报表：针对单个部门，导出 / 打印人员清单。
+	月度考勤汇总报表：每个员工一行，展示迟到、早退、缺勤、请假、正常出勤天数。
+	员工工资条报表：逐页生成每位员工的工资条（员工姓名 + 9 项薪资构成 + 实发工资），支持批量打印。
+	休假 / 加班统计报表：柱形图 + 明细表联合输出。
+	在线打印：所有报表页面均通过 CSS @media print 隐藏按钮、菜单等非打印区；按钮 OnClientClick="window.print();return false;" 触发打印对话框。
+
+3. 各层职责与调用规范
+(1)	UI 层：只负责数据展示（GridView/DetailsView/FormView/TreeView）、用户输入采集、客户端验证；绝不直接拼 SQL。所有数据交互通过调用 BLL 的 Service 完成。
+(2)	BLL 层：接收 UI 传入的参数，完成业务校验（如休假是否超余额、工资公式计算、打卡是否已签到）；1 个原子操作同时写多张表时用 TransactionScope 保证事务；关键操作前后统一写 EventLog。
+(3)	DAL 层：仅负责与数据库交互，纯 CRUD + 多条件查询（IQueryable 组合）+ 分页（Skip/Take）；无业务逻辑，可被 BLL 单元测试 Mock。
+(4)	Model 层：跨三层传递数据的 DTO/实体；可直接使用 LINQ to SQL 生成的实体类，避免重复造轮子。
+
+4. 数据库连接方式（Web.config）
+<connectionStrings>
+  <add name="HRMSConnString"
+       providerName="System.Data.SqlClient"
+       connectionString="Data Source=(LocalDB)\MSSQLLocalDB;
+                         AttachDbFilename=|DataDirectory|\HRMS.mdf;
+                         Integrated Security=True;MultipleActiveResultSets=True" />
+</connectionStrings>
+
+
+
+
+
+（四）应用系统功能模块（三人分工版）
+成员 A：员工管理 + 部门管理 + 事件日志管理
+模块	子功能	涉及表	关键页面 / 控件
+A-1 员工管理	① 员工录入（照片上传 + 验证控件） ② 员工列表（多条件检索 + 分页） ③ 员工详情 / 修改（DetailsView） ④ 员工删除（逻辑/物理二选一） ⑤ 照片更换 / 头像预览	Employee, Position, Department	EmployeeList.aspx GridView + ObjectDataSource
+EmployeeEdit.aspx FormView + FileUpload + Image 预览
+A-2 部门管理	① 部门录入（DropDownList 上级、DropDownList 经理） ② 部门编辑 / 删除（外键约束自动检查） ③ TreeView 树状视图（递归加载 ParentId） ④ 点击节点 → 该部门员工列表	Department, Employee	DeptTree.aspx TreeView
+DeptEdit.aspx DetailsView
+A-3 事件日志管理	① 自动写日志（BLL 层 WriteLog 公共方法） ② 按用户名/时间/事件名三条件组合查询 ③ 单条 / 批量删除过期日志	EventLog, [User]	EventLogList.aspx GridView + 三个筛选框 + 批量删除按钮
+
+成员 B：休假管理 + 人事考勤 + 加班管理
+模块	子功能	涉及表	关键页面 / 控件
+B-1 休假管理	① 休假类型设置（LeaveType 的增删改查） ② 员工休假申请录入（自动算工作日天数） ③ 休假审批（经理角色修改 Status + ApproverId） ④ 休假查询 ⑤ 统计汇总（按部门/类型/月份分组，Chart 图）	LeaveType, LeaveRecord, Employee, Department	LeaveTypeMgr.aspx GridView
+LeaveApply.aspx FormView + 两个 Calendar 控件
+LeaveStat.aspx Chart + GridView
+B-2 人事考勤	① 考勤参数设置（AttendanceSetting SettingId=1 单例页） ② 当日签到/签退（UPSERT 每人每天 1 条） ③ 查询考勤明细（按月日历或列表） ④ 考勤统计（迟到/早退/缺勤/正常/请假计数）	AttendanceSetting, Attendance, Employee	AttendanceParam.aspx DetailsView
+CheckIn.aspx 两个大按钮签到/签退 + 状态提示
+AttendanceStat.aspx 员工月度考勤汇总表
+B-3 加班管理	① 加班信息录入（自动算 OtHours） ② 特定员工加班查询 ③ 按月 / 季度加班汇总（连接工资模块回写 OvertimePay）	Overtime, Employee, Salary	OvertimeEdit.aspx FormView
+OvertimeStat.aspx GridView 按员工分组
+
+成员 C：工资管理 + 报表打印 + 系统公共模块
+模块	子功能	涉及表	关键页面 / 控件
+C-1 工资管理	① 发薪记录录入（9 项薪资字段 + 自动算净工资） ② 查询特定员工薪酬（时间范围 + 工号） ③ 发薪历史汇总（部门 / 全公司 / 月份合计，支持导出）	Salary, Employee, Department, Overtime	SalaryEdit.aspx（按公式实时计算 NetSalary 的 JavaScript）
+SalaryStat.aspx（部门工资汇总表）
+C-2 报表打印	① 员工花名册报表 ② 部门人员清单报表 ③ 月度考勤汇总报表 ④ 员工工资条报表（逐页） ⑤ 休假 / 加班统计报表 ⑥ CSS @media print 在线打印	各表 JOIN	Report/EmployeeRoster.aspx
+Report/AttendanceMonthly.aspx
+Report/SalarySlip.aspx
+每个页面配专用打印 CSS 与 window.print() 按钮
+C-3 系统公共模块	① 登录页 / 登出 + Session 验证（每个页基类检查） ② Site.Master 母版页 + 导航菜单 ③ RoleName 权限控制（管理员 / 部门经理 / 普通用户显示不同菜单） ④ DBHelper / WriteLog 公共静态类 ⑤ Web.config 配置（连接串 / 上传大小上限）	[User], EventLog	Login.aspx + 验证码
+BasePage.cs（所有业务页继承，做 Session 校验）
+Site.Master 导航菜单
+
+
+模块间协同关系（联调要点）
+协同点	说明
+部门 ↔ 员工	员工编辑页中部门 DropDownList 由 A-2 模块维护；A-2 的部门删除通过 FK SET NULL 自动同步 Employee.DeptId
+员工 ↔ 用户	C-3 登录模块账号管理页使用 UK_User_EmpId 保证 1:1；员工删除时 FK CASCADE 自动清账号
+考勤 / 加班 → 工资	B-2 / B-3 的月度统计结果，在 C-1 录入工资条时自动带出 AttendanceDeduction / OvertimePay
+休假 → 考勤	休假状态为"已批准"的区间，考勤状态标记为"请假"而不是"缺勤"
+所有模块 → 日志	所有 BLL 写操作统一调用 A-3 提供的 WriteLog()，保障审计完整

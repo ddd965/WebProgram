@@ -1,0 +1,123 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="SiteMaster" %>
+
+<!DOCTYPE html>
+
+<html lang="zh">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>人事管理系统</title>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <style>
+        .navbar-nav > li > a { padding: 10px 12px; font-size: 14px; }
+        .navbar-brand { font-weight: bold; }
+        .body-content { margin-top: 70px; }
+        @@media print {
+            .navbar, footer, .btn, .no-print { display: none !important; }
+            .body-content { margin-top: 0; }
+        }
+    </style>
+</head>
+<body>
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+            </Scripts>
+        </asp:ScriptManager>
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" title="更多选项">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" runat="server" href="~/">HRMS 人事管理系统</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a runat="server" href="~/Default.aspx">首页</a></li>
+                        <li id="navEmployee" runat="server" class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">员工管理 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a runat="server" href="~/Employee/EmployeeList.aspx">员工列表</a></li>
+                                <li><a runat="server" href="~/Employee/EmployeeEdit.aspx?mode=add">新增员工</a></li>
+                            </ul>
+                        </li>
+                        <li id="navDepartment" runat="server"><a runat="server" href="~/Department/DeptTree.aspx">部门管理</a></li>
+                        <li id="navLeave" runat="server" class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">休假管理 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a runat="server" href="~/Leave/LeaveApply.aspx">休假申请</a></li>
+                                <li><a runat="server" href="~/Leave/LeaveList.aspx">审批 / 查询</a></li>
+                                <li><a runat="server" href="~/Leave/LeaveStat.aspx">休假统计 (Chart)</a></li>
+                            </ul>
+                        </li>
+                        <li id="navAttendance" runat="server" class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">考勤管理 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a runat="server" href="~/Attendance/CheckIn.aspx">考勤打卡</a></li>
+                                <li><a runat="server" href="~/Attendance/AttendanceDetail.aspx">按月考勤明细</a></li>
+                                <li><a runat="server" href="~/Attendance/AttendanceStat.aspx">月度考勤统计</a></li>
+                                <li><a runat="server" href="~/Attendance/AttendanceParam.aspx">考勤参数设置</a></li>
+                            </ul>
+                        </li>
+                        <li id="navOvertime" runat="server" class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">加班管理 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a runat="server" href="~/Overtime/OvertimeEdit.aspx">加班录入</a></li>
+                                <li><a runat="server" href="~/Overtime/OvertimeList.aspx">加班列表/审批</a></li>
+                                <li><a runat="server" href="~/Overtime/OvertimeStat.aspx">月度/季度汇总</a></li>
+                            </ul>
+                        </li>
+                        <li id="navSalary" runat="server" class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">工资管理 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a runat="server" href="~/Salary/SalaryEdit.aspx">工资录入</a></li>
+                                <li><a runat="server" href="~/Salary/SalaryList.aspx">工资列表</a></li>
+                                <li><a runat="server" href="~/Salary/SalaryStat.aspx">发薪历史汇总（部门/全公司/月份合计 + 导出）</a></li>
+                            </ul>
+                        </li>
+                        <li id="navReport" runat="server"><a runat="server" href="~/Report/ReportCenter.aspx">报表打印</a></li>
+                        <li id="navEventLog" runat="server"><a runat="server" href="~/EventLog/EventLogList.aspx">事件日志</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <p class="navbar-text" style="margin-right:10px;">
+                                <asp:Literal runat="server" ID="litUserInfo" />
+                            </p>
+                        </li>
+                        <li id="btnLogout" runat="server">
+                            <asp:LinkButton runat="server" CssClass="btn btn-sm btn-danger navbar-btn" Text="退出登录" OnClick="btnLogout_Click" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container body-content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+            <hr class="no-print" />
+            <footer class="no-print">
+                <p>&copy; <%: DateTime.Now.Year %> - 人事管理系统 HRMS</p>
+            </footer>
+        </div>
+    </form>
+</body>
+</html>
