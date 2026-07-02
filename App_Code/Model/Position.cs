@@ -1,4 +1,4 @@
-namespace HRMS.Model
+﻿namespace HRMS.Model
 {
     /// <summary>
     /// 职位实体

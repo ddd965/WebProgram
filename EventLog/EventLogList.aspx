@@ -1,4 +1,4 @@
-<%@ Page Title="事件日志管理" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="EventLogList.aspx.cs" Inherits="EventLog_EventLogList" %>
+﻿<%@ Page Title="事件日志管理" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="EventLogList.aspx.cs" Inherits="EventLog_EventLogList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h2>事件日志管理</h2>

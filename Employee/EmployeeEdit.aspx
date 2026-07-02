@@ -1,4 +1,4 @@
-<%@ Page Title="员工编辑" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="EmployeeEdit.aspx.cs" Inherits="Employee_EmployeeEdit" %>
+﻿<%@ Page Title="员工编辑" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="EmployeeEdit.aspx.cs" Inherits="Employee_EmployeeEdit" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h2><asp:Literal runat="server" ID="litTitle" /></h2>

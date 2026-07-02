@@ -1,4 +1,4 @@
-<%@ Page Title="部门管理" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="DeptTree.aspx.cs" Inherits="Department_DeptTree" %>
+﻿<%@ Page Title="部门管理" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="DeptTree.aspx.cs" Inherits="Department_DeptTree" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h2>部门管理</h2>

@@ -1,4 +1,4 @@
-<%@ Page Title="登录 - 人事管理系统" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Login.aspx.cs" Inherits="Account_Login" %>
+﻿<%@ Page Title="登录 - 人事管理系统" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Login.aspx.cs" Inherits="Account_Login" %>
 
 <asp:Content runat="server" ID="BodyContent" ContentPlaceHolderID="MainContent">
     <h2>人事管理系统登录</h2>

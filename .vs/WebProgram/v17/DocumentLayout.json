@@ -3,8 +3,80 @@
   "WorkspaceRootPath": "D:\\app\\vs program\\WebProgram\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|d:\\app\\vs program\\webprogram\\default.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|D:\\app\\vs program\\WebProgram\\default.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
       "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|solutionrelative:default.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|d:\\app\\vs program\\webprogram\\eventlog\\eventloglist.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|solutionrelative:eventlog\\eventloglist.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|d:\\app\\vs program\\webprogram\\employee\\employeelist.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|solutionrelative:employee\\employeelist.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|d:\\app\\vs program\\webprogram\\employee\\employeeedit.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|solutionrelative:employee\\employeeedit.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|d:\\app\\vs program\\webprogram\\department\\depttree.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|solutionrelative:department\\depttree.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|d:\\app\\vs program\\webprogram\\department\\deptedit.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|solutionrelative:department\\deptedit.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|d:\\app\\vs program\\webprogram\\account\\registerexternallogin.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|solutionrelative:account\\registerexternallogin.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|d:\\app\\vs program\\webprogram\\account\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|solutionrelative:account\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|d:\\app\\vs program\\webprogram\\account\\register.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|solutionrelative:account\\register.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|d:\\app\\vs program\\webprogram\\account\\openauthproviders.ascx||{F390D63C-F7D8-4E74-AA04-57C1ECF53D4D}",
+      "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|solutionrelative:account\\openauthproviders.ascx||{F390D63C-F7D8-4E74-AA04-57C1ECF53D4D}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|d:\\app\\vs program\\webprogram\\account\\manage.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|solutionrelative:account\\manage.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|d:\\app\\vs program\\webprogram\\account\\login.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|solutionrelative:account\\login.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|D:\\app\\vs program\\WebProgram\\contact.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|solutionrelative:contact.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|d:\\app\\vs program\\webprogram\\site.master||{B30AFBFF-D992-43B7-B62D-2642580A2883}",
+      "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|solutionrelative:site.master||{B30AFBFF-D992-43B7-B62D-2642580A2883}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|d:\\app\\vs program\\webprogram\\app_code\\bll\\overtimebll.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|solutionrelative:app_code\\bll\\overtimebll.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|D:\\app\\vs program\\WebProgram\\app_code\\bll\\positionbll.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|solutionrelative:app_code\\bll\\positionbll.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|D:\\app\\vs program\\WebProgram\\app_code\\bll\\writelog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|solutionrelative:app_code\\bll\\writelog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|D:\\app\\vs program\\WebProgram\\favicon.ico||{177559E0-D141-11D0-92DF-00A0C9138C45}",
+      "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|solutionrelative:favicon.ico||{177559E0-D141-11D0-92DF-00A0C9138C45}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|D:\\app\\vs program\\WebProgram\\document\\hrms_schema.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
+      "RelativeMoniker": "D:0:0:{1CDBFBF2-1BBE-4603-8BA5-8706B4A7206C}|D:\\app\\vs program\\WebProgram|solutionrelative:document\\hrms_schema.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,8 +86,73 @@
       "DocumentGroups": [
         {
           "DockedWidth": 288,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 22,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "EventLogList.aspx",
+              "DocumentMoniker": "D:\\app\\vs program\\WebProgram\\EventLog\\EventLogList.aspx",
+              "RelativeDocumentMoniker": "EventLog\\EventLogList.aspx",
+              "ToolTip": "D:\\app\\vs program\\WebProgram\\EventLog\\EventLogList.aspx*",
+              "RelativeToolTip": "EventLog\\EventLogList.aspx*",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2026-07-02T08:10:21.598Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "EmployeeList.aspx",
+              "DocumentMoniker": "D:\\app\\vs program\\WebProgram\\Employee\\EmployeeList.aspx",
+              "RelativeDocumentMoniker": "Employee\\EmployeeList.aspx",
+              "ToolTip": "D:\\app\\vs program\\WebProgram\\Employee\\EmployeeList.aspx*",
+              "RelativeToolTip": "Employee\\EmployeeList.aspx*",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2026-07-02T08:10:12.568Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "EmployeeEdit.aspx",
+              "DocumentMoniker": "D:\\app\\vs program\\WebProgram\\Employee\\EmployeeEdit.aspx",
+              "RelativeDocumentMoniker": "Employee\\EmployeeEdit.aspx",
+              "ToolTip": "D:\\app\\vs program\\WebProgram\\Employee\\EmployeeEdit.aspx*",
+              "RelativeToolTip": "Employee\\EmployeeEdit.aspx*",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2026-07-02T08:10:05.868Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DeptTree.aspx",
+              "DocumentMoniker": "D:\\app\\vs program\\WebProgram\\Department\\DeptTree.aspx",
+              "RelativeDocumentMoniker": "Department\\DeptTree.aspx",
+              "ToolTip": "D:\\app\\vs program\\WebProgram\\Department\\DeptTree.aspx*",
+              "RelativeToolTip": "Department\\DeptTree.aspx*",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2026-07-02T08:09:51.531Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "DeptEdit.aspx",
+              "DocumentMoniker": "D:\\app\\vs program\\WebProgram\\Department\\DeptEdit.aspx",
+              "RelativeDocumentMoniker": "Department\\DeptEdit.aspx",
+              "ToolTip": "D:\\app\\vs program\\WebProgram\\Department\\DeptEdit.aspx*",
+              "RelativeToolTip": "Department\\DeptEdit.aspx*",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2026-07-02T08:09:42.916Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:1:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
@@ -31,6 +168,169 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "RegisterExternalLogin.aspx",
+              "DocumentMoniker": "D:\\app\\vs program\\WebProgram\\Account\\RegisterExternalLogin.aspx",
+              "RelativeDocumentMoniker": "Account\\RegisterExternalLogin.aspx",
+              "ToolTip": "D:\\app\\vs program\\WebProgram\\Account\\RegisterExternalLogin.aspx",
+              "RelativeToolTip": "Account\\RegisterExternalLogin.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2026-07-02T08:05:01.719Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Web.config",
+              "DocumentMoniker": "D:\\app\\vs program\\WebProgram\\Account\\Web.config",
+              "RelativeDocumentMoniker": "Account\\Web.config",
+              "ToolTip": "D:\\app\\vs program\\WebProgram\\Account\\Web.config",
+              "RelativeToolTip": "Account\\Web.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2026-07-02T08:05:00.88Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Register.aspx",
+              "DocumentMoniker": "D:\\app\\vs program\\WebProgram\\Account\\Register.aspx",
+              "RelativeDocumentMoniker": "Account\\Register.aspx",
+              "ToolTip": "D:\\app\\vs program\\WebProgram\\Account\\Register.aspx",
+              "RelativeToolTip": "Account\\Register.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2026-07-02T08:04:56.289Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "OpenAuthProviders.ascx",
+              "DocumentMoniker": "D:\\app\\vs program\\WebProgram\\Account\\OpenAuthProviders.ascx",
+              "RelativeDocumentMoniker": "Account\\OpenAuthProviders.ascx",
+              "ToolTip": "D:\\app\\vs program\\WebProgram\\Account\\OpenAuthProviders.ascx",
+              "RelativeToolTip": "Account\\OpenAuthProviders.ascx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003302|",
+              "WhenOpened": "2026-07-02T08:04:50.874Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Manage.aspx",
+              "DocumentMoniker": "D:\\app\\vs program\\WebProgram\\Account\\Manage.aspx",
+              "RelativeDocumentMoniker": "Account\\Manage.aspx",
+              "ToolTip": "D:\\app\\vs program\\WebProgram\\Account\\Manage.aspx",
+              "RelativeToolTip": "Account\\Manage.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2026-07-02T08:04:43.543Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Login.aspx",
+              "DocumentMoniker": "D:\\app\\vs program\\WebProgram\\Account\\Login.aspx",
+              "RelativeDocumentMoniker": "Account\\Login.aspx",
+              "ToolTip": "D:\\app\\vs program\\WebProgram\\Account\\Login.aspx",
+              "RelativeToolTip": "Account\\Login.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2026-07-02T08:04:31.436Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Site.master",
+              "DocumentMoniker": "D:\\app\\vs program\\WebProgram\\Site.master",
+              "RelativeDocumentMoniker": "Site.master",
+              "ToolTip": "D:\\app\\vs program\\WebProgram\\Site.master",
+              "RelativeToolTip": "Site.master",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2026-07-02T07:56:43.601Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "WriteLog.cs",
+              "DocumentMoniker": "D:\\app\\vs program\\WebProgram\\App_Code\\BLL\\WriteLog.cs",
+              "RelativeDocumentMoniker": "App_Code\\BLL\\WriteLog.cs",
+              "ToolTip": "D:\\app\\vs program\\WebProgram\\App_Code\\BLL\\WriteLog.cs",
+              "RelativeToolTip": "App_Code\\BLL\\WriteLog.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-02T07:35:39.998Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "PositionBLL.cs",
+              "DocumentMoniker": "D:\\app\\vs program\\WebProgram\\App_Code\\BLL\\PositionBLL.cs",
+              "RelativeDocumentMoniker": "App_Code\\BLL\\PositionBLL.cs",
+              "ToolTip": "D:\\app\\vs program\\WebProgram\\App_Code\\BLL\\PositionBLL.cs",
+              "RelativeToolTip": "App_Code\\BLL\\PositionBLL.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-02T07:33:17.669Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "OvertimeBLL.cs",
+              "DocumentMoniker": "D:\\app\\vs program\\WebProgram\\App_Code\\BLL\\OvertimeBLL.cs",
+              "RelativeDocumentMoniker": "App_Code\\BLL\\OvertimeBLL.cs",
+              "ToolTip": "D:\\app\\vs program\\WebProgram\\App_Code\\BLL\\OvertimeBLL.cs",
+              "RelativeToolTip": "App_Code\\BLL\\OvertimeBLL.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-02T07:18:36.48Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "favicon.ico - Icon [16x16, 32 \u4F4D, BMP]",
+              "DocumentMoniker": "D:\\app\\vs program\\WebProgram\\favicon.ico",
+              "RelativeDocumentMoniker": "favicon.ico",
+              "ToolTip": "D:\\app\\vs program\\WebProgram\\favicon.ico - Icon [16x16, 32 \u4F4D, BMP]",
+              "RelativeToolTip": "favicon.ico - Icon [16x16, 32 \u4F4D, BMP]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001525|",
+              "WhenOpened": "2026-07-02T07:01:21.915Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Contact.aspx",
+              "DocumentMoniker": "D:\\app\\vs program\\WebProgram\\Contact.aspx",
+              "RelativeDocumentMoniker": "Contact.aspx",
+              "ToolTip": "D:\\app\\vs program\\WebProgram\\Contact.aspx",
+              "RelativeToolTip": "Contact.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2026-07-02T07:01:17.826Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "HRMS_Schema.sql ",
+              "DocumentMoniker": "D:\\app\\vs program\\WebProgram\\Document\\HRMS_Schema.sql",
+              "RelativeDocumentMoniker": "Document\\HRMS_Schema.sql",
+              "ToolTip": "D:\\app\\vs program\\WebProgram\\Document\\HRMS_Schema.sql",
+              "RelativeToolTip": "Document\\HRMS_Schema.sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2026-07-02T06:47:12.54Z"
             },
             {
               "$type": "Document",
