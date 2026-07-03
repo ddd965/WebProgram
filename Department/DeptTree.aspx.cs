@@ -18,15 +18,19 @@ public partial class Department_DeptTree : HRMS.Common.BasePage
     private void BuildTree()
     {
         tvDept.Nodes.Clear();
-        // 持久化修正：把所有部门的 ParentId 置为 NULL，保证九部门平级（执行过一次后0行受影响）
-        try { HRMS.DAL.DepartmentDAL.FlattenAllDepartments(); } catch { }
+        // ★ 不再每次强制扁平化（FlattenAllDepartments 会覆盖用户改的上下级关系）
+        //   初始九部门在 DB 中 ParentId=NULL 会自然显示为顶级，用户可后续自由修改
         var allDepts = DepartmentBLL.GetAll();
-        // 所有部门一律顶级（不再递归BuildChildNodes），按 DeptId 顺序 1..9
-        foreach (var dept in allDepts.OrderBy(d => d.DeptId))
+
+        // 1. 先加顶级部门（ParentId == NULL），按 DeptId 排序
+        foreach (var dept in allDepts.Where(d => !d.ParentId.HasValue).OrderBy(d => d.DeptId))
         {
             var node = CreateTreeNode(dept);
             tvDept.Nodes.Add(node);
+            // 2. 递归挂所有子部门、孙部门...
+            BuildChildNodes(node, dept.DeptId, allDepts);
         }
+
         if (tvDept.Nodes.Count == 0)
         {
             var hint = new TreeNode("（无部门，请先新增部门）", "0") { SelectAction = TreeNodeSelectAction.None };
@@ -35,9 +39,18 @@ public partial class Department_DeptTree : HRMS.Common.BasePage
         tvDept.DataBind();
     }
 
+    /// <summary>
+    /// 递归：把 parentId 的所有子部门加到 parentNode 下（按 DeptId 排序），并继续下探
+    /// </summary>
     private void BuildChildNodes(TreeNode parentNode, int parentId, List<Department> allDepts)
     {
-        // 扁平化后无任何子部门，保留方法签名兼容
+        var children = allDepts.Where(d => d.ParentId == parentId).OrderBy(d => d.DeptId);
+        foreach (var child in children)
+        {
+            var node = CreateTreeNode(child);
+            parentNode.ChildNodes.Add(node);
+            BuildChildNodes(node, child.DeptId, allDepts);
+        }
     }
 
     private TreeNode CreateTreeNode(Department dept)
