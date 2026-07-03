@@ -1,4 +1,4 @@
-﻿<%@ Page Title="休假统计汇总" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="LeaveStat.aspx.cs" Inherits="Leave_LeaveStat" %>
+<%@ Page Title="休假统计汇总" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="LeaveStat.aspx.cs" Inherits="Leave_LeaveStat" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h2>休假统计汇总（含 Chart 图）</h2>
@@ -52,8 +52,8 @@
     <div class="panel panel-default" style="page-break-inside:avoid;">
         <div class="panel-heading">统计图表</div>
         <div class="panel-body">
-            <canvas id="leaveChart" height="100"></canvas>
-            <canvas id="leavePieChart" height="100" style="margin-top:20px;"></canvas>
+            <canvas id="leaveChart" height="100" style="image-rendering:-webkit-optimize-contrast;image-rendering:crisp-edges;-webkit-print-color-adjust:exact;print-color-adjust:exact;"></canvas>
+            <canvas id="leavePieChart" height="100" style="margin-top:20px;image-rendering:-webkit-optimize-contrast;image-rendering:crisp-edges;-webkit-print-color-adjust:exact;print-color-adjust:exact;"></canvas>
         </div>
     </div>
 

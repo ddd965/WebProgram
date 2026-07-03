@@ -72,9 +72,6 @@
             <asp:BoundField DataField="ColC" HeaderText="节假日/类型C" DataFormatString="{0:0.#}" />
             <asp:BoundField DataField="Total" HeaderText="合计" DataFormatString="{0:0.#}" ItemStyle-Font-Bold="true" />
             <asp:BoundField DataField="Count" HeaderText="次数" />
-            <asp:TemplateField HeaderText="估算金额">
-                <ItemTemplate>¥<%# Eval("Amount", "{0:N2}") %></ItemTemplate>
-            </asp:TemplateField>
         </Columns>
         <FooterStyle BackColor="#f5f5f5" Font-Bold="true" />
     </asp:GridView>

@@ -36,16 +36,23 @@
                         </asp:DropDownList>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-group"><label>视图切换</label><br />
-                        <label><asp:RadioButton runat="server" ID="rbList" GroupName="viewMode" Text="列表视图" Checked="true" AutoPostBack="true" OnCheckedChanged="rbViewMode_CheckedChanged" /></label>&nbsp;
-                        <label><asp:RadioButton runat="server" ID="rbCalendar" GroupName="viewMode" Text="日历视图" AutoPostBack="true" OnCheckedChanged="rbViewMode_CheckedChanged" /></label>
+                        <label><asp:RadioButton runat="server" ID="rbList" GroupName="viewMode" Text="列表" Checked="true" AutoPostBack="true" OnCheckedChanged="rbViewMode_CheckedChanged" /></label>&nbsp;
+                        <label><asp:RadioButton runat="server" ID="rbCalendar" GroupName="viewMode" Text="日历" AutoPostBack="true" OnCheckedChanged="rbViewMode_CheckedChanged" /></label>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         <label>&nbsp;</label>
                         <asp:Button runat="server" ID="btnQuery" Text="查询" OnClick="btnQuery_Click" CssClass="btn btn-primary btn-block" />
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <label>&nbsp;</label>
+                        <asp:Button runat="server" ID="btnPrint" Text="打印"
+                            OnClientClick="window.print();return false;" CssClass="btn btn-info btn-block" />
                     </div>
                 </div>
             </div>
@@ -72,7 +79,7 @@
                 </asp:TemplateField>
                 <asp:BoundField DataField="Remark" HeaderText="备注" />
             </Columns>
-            <PagerStyle CssClass="pagination-ys" HorizontalAlign="Center" />
+            <PagerStyle CssClass="pagination-ys no-print" HorizontalAlign="Center" />
         </asp:GridView>
         </div>
     </asp:Panel>

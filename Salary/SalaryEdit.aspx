@@ -1,4 +1,4 @@
-﻿<%@ Page Title="工资录入" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="SalaryEdit.aspx.cs" Inherits="Salary_SalaryEdit" %>
+<%@ Page Title="工资录入" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="SalaryEdit.aspx.cs" Inherits="Salary_SalaryEdit" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h2>发薪录入</h2>
@@ -86,8 +86,13 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label>发薪日期</label>
+                        <label>发薪日期 <span style="color: #d9534f;">*</span></label>
                         <asp:TextBox runat="server" ID="txtPayDate" CssClass="form-control" TextMode="Date" />
+                        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPayDate"
+                            CssClass="text-danger" ErrorMessage="发薪日期为必填项" Display="Dynamic" />
+                        <asp:CompareValidator runat="server" ControlToValidate="txtPayDate"
+                            Operator="DataTypeCheck" Type="Date"
+                            CssClass="text-danger" ErrorMessage="请输入合法日期" Display="Dynamic" />
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -117,4 +122,48 @@
     </div>
 
     <asp:Label runat="server" ID="lblMsg" CssClass="text-info" />
+
+    <script>
+        (function () {
+            function toNum(id) {
+                var el = document.getElementById(id);
+                if (!el) return 0;
+                var v = el.value.replace(/[,\s]/g, '');
+                var n = parseFloat(v);
+                return isNaN(n) ? 0 : n;
+            }
+            function calcNet() {
+                var b = toNum('<%= txtBase.ClientID %>');
+                var p = toNum('<%= txtPerf.ClientID %>');
+                var bo = toNum('<%= txtBonus.ClientID %>');
+                var op = toNum('<%= txtOtPay.ClientID %>');
+                var ins = toNum('<%= txtIns.ClientID %>');
+                var fund = toNum('<%= txtFund.ClientID %>');
+                var tax = toNum('<%= txtTax.ClientID %>');
+                var ded = toNum('<%= txtDed.ClientID %>');
+                var net = b + p + bo + op - ins - fund - tax - ded;
+                if (net < 0) net = 0;
+                var netEl = document.getElementById('<%= txtNet.ClientID %>');
+                if (netEl) netEl.value = net.toFixed(2);
+            }
+            function bind(id) {
+                var el = document.getElementById(id);
+                if (!el) return;
+                el.addEventListener('input', calcNet);
+                el.addEventListener('change', calcNet);
+                el.addEventListener('blur', calcNet);
+            }
+            document.addEventListener('DOMContentLoaded', function () {
+                bind('<%= txtBase.ClientID %>');
+                bind('<%= txtPerf.ClientID %>');
+                bind('<%= txtBonus.ClientID %>');
+                bind('<%= txtOtPay.ClientID %>');
+                bind('<%= txtIns.ClientID %>');
+                bind('<%= txtFund.ClientID %>');
+                bind('<%= txtTax.ClientID %>');
+                bind('<%= txtDed.ClientID %>');
+                calcNet();
+            });
+        })();
+    </script>
 </asp:Content>

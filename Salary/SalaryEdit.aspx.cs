@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using HRMS.BLL;
@@ -56,6 +56,7 @@ public partial class Salary_SalaryEdit : HRMS.Common.BasePage
                 txtTax.Text = s.Tax.ToString("0.##");
                 txtDed.Text = s.Deduction.ToString("0.##");
                 txtOtPay.Text = s.OvertimePay.ToString("0.##");
+                if (s.PayDate.HasValue) txtPayDate.Text = s.PayDate.Value.ToString("yyyy-MM-dd");
             }
             CalcNet();
         }
@@ -80,12 +81,29 @@ public partial class Salary_SalaryEdit : HRMS.Common.BasePage
 
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        if (!Page.IsValid) { lblMsg.Text = "⚠ 请完善必填项。"; lblMsg.CssClass = "text-danger"; return; }
+        if (!Page.IsValid) { lblMsg.Text = "⚠ 请完善必填项（员工、薪资月份、发薪日期等）。"; lblMsg.CssClass = "text-danger"; return; }
         try
         {
             lblMsg.CssClass = "text-info";
             int empId = int.Parse(ddlEmployee.SelectedValue);
             string month = (txtSalaryMonth.Text ?? "").Trim();
+
+            // ========== 后端二次校验：发薪日期必填 & 格式合法（防绕过前端/验证控件） ==========
+            string payDateRaw = (txtPayDate.Text ?? "").Trim();
+            if (string.IsNullOrEmpty(payDateRaw))
+            {
+                lblMsg.CssClass = "text-danger";
+                lblMsg.Text = "⚠ 发薪日期为必填项，请选择发薪日期。";
+                return;
+            }
+            DateTime payDate;
+            if (!DateTime.TryParse(payDateRaw, out payDate))
+            {
+                lblMsg.CssClass = "text-danger";
+                lblMsg.Text = "⚠ 发薪日期格式不正确，请选择合法日期。";
+                return;
+            }
+
             CalcNet();
             var s = new Salary
             {
@@ -100,7 +118,7 @@ public partial class Salary_SalaryEdit : HRMS.Common.BasePage
                 Tax = decimal.Parse(txtTax.Text),
                 Deduction = decimal.Parse(txtDed.Text),
                 NetSalary = decimal.Parse(txtNet.Text),
-                PayDate = string.IsNullOrEmpty(txtPayDate.Text) ? (DateTime?)null : DateTime.Parse(txtPayDate.Text),
+                PayDate = payDate,
                 Remark = (txtRemark.Text ?? "").Trim()
             };
             var exists = SalaryBLL.QueryByEmpAndMonth(empId, month, month);
@@ -108,14 +126,14 @@ public partial class Salary_SalaryEdit : HRMS.Common.BasePage
             {
                 s.SalaryId = exists[0].SalaryId;
                 SalaryBLL.Update(s);
-                WriteLog.Write(CurrentUserName, "修改", $"更新工资记录：{month} 员工ID={empId} 实发{s.NetSalary:C}");
-                lblMsg.Text = $"已覆盖更新 {month} 工资记录，实发 ¥{s.NetSalary:N2}。";
+                WriteLog.Write(CurrentUserName, "修改", $"更新工资记录：{month} 员工ID={empId} 实发{s.NetSalary:C} 发薪日={payDate:yyyy-MM-dd}");
+                lblMsg.Text = $"已覆盖更新 {month} 工资记录（发薪日 {payDate:yyyy-MM-dd}），实发 ¥{s.NetSalary:N2}。";
             }
             else
             {
                 SalaryBLL.Insert(s);
-                WriteLog.Write(CurrentUserName, "新增", $"新增工资记录：{month} 员工ID={empId} 实发{s.NetSalary:C}");
-                lblMsg.Text = $"已保存 {month} 工资记录，实发 ¥{s.NetSalary:N2}。";
+                WriteLog.Write(CurrentUserName, "新增", $"新增工资记录：{month} 员工ID={empId} 实发{s.NetSalary:C} 发薪日={payDate:yyyy-MM-dd}");
+                lblMsg.Text = $"已保存 {month} 工资记录（发薪日 {payDate:yyyy-MM-dd}），实发 ¥{s.NetSalary:N2}。";
             }
             lblMsg.CssClass = "text-success";
         }

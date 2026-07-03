@@ -1,7 +1,7 @@
-﻿<%@ Page Title="加班汇总" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="OvertimeStat.aspx.cs" Inherits="Overtime_OvertimeStat" %>
+<%@ Page Title="加班汇总" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="OvertimeStat.aspx.cs" Inherits="Overtime_OvertimeStat" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <h2>加班汇总统计（按月/季度 + 回写工资 OvertimePay）</h2>
+    <h2>加班汇总统计（按月/季度）</h2>
     <hr />
 
     <div class="panel panel-default no-print">
@@ -22,7 +22,7 @@
                 </div>
                 <div class="col-md-2">
                     <div class="form-group"><label>周期类型</label>
-                        <asp:DropDownList runat="server" ID="ddlRange" CssClass="form-control">
+                        <asp:DropDownList runat="server" ID="ddlRange" CssClass="form-control" AutoPostBack="True" OnSelectedIndexChanged="ddlRange_SelectedIndexChanged">
                             <asp:ListItem Text="月度" Value="month" Selected="True" />
                             <asp:ListItem Text="季度" Value="quarter" />
                         </asp:DropDownList>
@@ -51,9 +51,6 @@
                         <label>&nbsp;</label>
                         <asp:Button runat="server" ID="btnStat" Text="统计" OnClick="btnStat_Click" CssClass="btn btn-primary" />
                         <asp:Button runat="server" ID="btnPrint" Text="打印" OnClientClick="window.print();return false;" CssClass="btn btn-info" />
-                        <asp:Button runat="server" ID="btnWriteBack" Text="回写工资加班费"
-                            OnClick="btnWriteBack_Click" CssClass="btn btn-warning"
-                            OnClientClick="return confirm('确认将当前周期的加班费回写到该月工资单 OvertimePay 字段？\n（仅当月已存在工资记录的员工会被更新）')" />
                     </div>
                 </div>
             </div>
@@ -64,48 +61,43 @@
 
     <%-- Chart 图 --%>
     <div class="panel panel-default" style="page-break-inside:avoid;">
-        <div class="panel-heading">部门加班费汇总图</div>
+        <div class="panel-heading">部门加班时长汇总图</div>
         <div class="panel-body">
-            <canvas id="otChartBar" height="90"></canvas>
-            <canvas id="otChartPie" height="90" style="margin-top:15px;"></canvas>
+            <canvas id="otChartBar" height="90" style="image-rendering:-webkit-optimize-contrast;image-rendering:crisp-edges;-webkit-print-color-adjust:exact;print-color-adjust:exact;"></canvas>
+            <canvas id="otChartPie" height="90" style="margin-top:15px;image-rendering:-webkit-optimize-contrast;image-rendering:crisp-edges;-webkit-print-color-adjust:exact;print-color-adjust:exact;"></canvas>
         </div>
     </div>
     <asp:HiddenField runat="server" ID="hidLabels" />
     <asp:HiddenField runat="server" ID="hidHours" />
-    <asp:HiddenField runat="server" ID="hidPay" />
 
     <div class="table-responsive">
     <asp:GridView runat="server" ID="gvStat" CssClass="table table-striped table-bordered table-condensed"
-        AutoGenerateColumns="False" AllowPaging="True" PageSize="20"
-        OnPageIndexChanging="gvStat_PageIndexChanging">
+        AutoGenerateColumns="False" AllowPaging="False">
         <Columns>
             <asp:TemplateField HeaderText="分组（员工/部门）">
                 <ItemTemplate><%# Eval("GroupKey") %></ItemTemplate>
             </asp:TemplateField>
-            <asp:BoundField DataField="工作日" HeaderText="工作日(h)" DataFormatString="{0:0.0}" />
-            <asp:BoundField DataField="周末" HeaderText="周末(h)" DataFormatString="{0:0.0}" />
-            <asp:BoundField DataField="节假日" HeaderText="节假日(h)" DataFormatString="{0:0.0}" />
-            <asp:BoundField DataField="总时长" HeaderText="合计(h)" DataFormatString="{0:0.0}" />
-            <asp:BoundField DataField="记录数" HeaderText="次数" />
-            <asp:TemplateField HeaderText="加班费(估算)">
-                <ItemTemplate>¥<%# Eval("估算加班费").ToString() %></ItemTemplate>
-            </asp:TemplateField>
+            <asp:BoundField DataField="Workday" HeaderText="工作日(h)" DataFormatString="{0:0.0}" />
+            <asp:BoundField DataField="Weekend" HeaderText="周末(h)" DataFormatString="{0:0.0}" />
+            <asp:BoundField DataField="Holiday" HeaderText="节假日(h)" DataFormatString="{0:0.0}" />
+            <asp:BoundField DataField="TotalHours" HeaderText="合计(h)" DataFormatString="{0:0.0}" />
+            <asp:BoundField DataField="RecordCount" HeaderText="次数" />
         </Columns>
-        <PagerStyle CssClass="pagination-ys" HorizontalAlign="Center" />
+        <PagerStyle CssClass="pagination-ys no-print" HorizontalAlign="Center" />
     </asp:GridView>
     </div>
 
-    <%-- 部门级汇总（回写工资时的参考表） --%>
-    <h4>按部门汇总（用于回写工资）</h4>
+    <%-- 部门级汇总 --%>
+    <h4>按部门汇总</h4>
     <div class="table-responsive">
     <asp:GridView runat="server" ID="gvDept" CssClass="table table-bordered table-condensed"
         AutoGenerateColumns="False" AllowPaging="False" style="page-break-inside:avoid;">
         <Columns>
             <asp:BoundField DataField="Period" HeaderText="周期" />
             <asp:BoundField DataField="DeptName" HeaderText="部门" />
-            <asp:BoundField DataField="EmpCount" HeaderText="人数" />
+            <asp:BoundField DataField="DeptEmpCount" HeaderText="部门人数" />
+            <asp:BoundField DataField="OtEmpCount" HeaderText="加班人数" ItemStyle-CssClass="text-warning" />
             <asp:BoundField DataField="TotalHours" HeaderText="总时长(h)" DataFormatString="{0:0.0}" />
-            <asp:BoundField DataField="TotalPay" HeaderText="加班费合计" DataFormatString="{0:C2}" />
         </Columns>
     </asp:GridView>
     </div>
@@ -116,7 +108,6 @@
             function p(s) { try { return JSON.parse(s || '[]'); } catch (e) { return []; } }
             var labels = p(document.getElementById('<%= hidLabels.ClientID %>').value);
             var hours = p(document.getElementById('<%= hidHours.ClientID %>').value);
-            var pays = p(document.getElementById('<%= hidPay.ClientID %>').value);
             if (!labels.length) return;
             var palette = ['#3366CC', '#DC3912', '#FF9900', '#109618', '#990099',
                 '#3B3EAC', '#0099C6', '#DD4477', '#66AA00', '#B82E2E', '#316395', '#994499'];
@@ -125,13 +116,12 @@
                 data: {
                     labels: labels,
                     datasets: [
-                        { label: '总时长(h)', data: hours, backgroundColor: palette[0] },
-                        { label: '加班费(元)', data: pays, backgroundColor: palette[2] }
+                        { label: '总时长(h)', data: hours, backgroundColor: palette[0] }
                     ]
                 },
                 options: {
                     responsive: true,
-                    title: { display: true, text: '各部门加班时长与加班费' },
+                    title: { display: true, text: '各部门加班时长' },
                     scales: { y: { beginAtZero: true } }
                 }
             });
@@ -139,9 +129,9 @@
                 type: 'doughnut',
                 data: {
                     labels: labels,
-                    datasets: [{ data: pays, backgroundColor: palette.slice(0, labels.length), label: '加班费占比' }]
+                    datasets: [{ data: hours, backgroundColor: palette.slice(0, labels.length), label: '时长占比' }]
                 },
-                options: { title: { display: true, text: '加班费占比' } }
+                options: { title: { display: true, text: '加班时长占比' } }
             });
         })();
     </script>

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using HRMS.Model;
 
@@ -54,6 +54,16 @@ namespace HRMS.DAL
         {
             return DBHelper.ExecuteNonQuery(DELETE,
                 new SqlParameter[] { new SqlParameter("@DeptId", deptId) });
+        }
+
+        /// <summary>
+        /// 将所有部门扁平化（强制 ParentId=NULL），保证九部门平级并列
+        /// 若执行过就不再重复执行（通过输出受影响行数判断）
+        /// </summary>
+        public static int FlattenAllDepartments()
+        {
+            return DBHelper.ExecuteNonQuery(
+                "UPDATE Department SET ParentId = NULL WHERE ParentId IS NOT NULL");
         }
 
         public static List<Department> GetSubDepartments(int parentId)

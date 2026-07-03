@@ -36,10 +36,17 @@
                         <asp:Button runat="server" ID="btnSearch" Text="查询" OnClick="btnSearch_Click" CssClass="btn btn-primary btn-block" />
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-group">
                         <label>&nbsp;</label>
-                        <a href="SalaryStat.aspx" class="btn btn-success">发薪历史汇总（合计+导出）</a>
+                        <asp:Button runat="server" ID="btnPrint" Text="打印报表"
+                            OnClientClick="window.print();return false;" CssClass="btn btn-info btn-block" />
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <label>&nbsp;</label>
+                        <a href="SalaryStat.aspx" class="btn btn-success btn-block" title="发薪历史汇总（合计+导出）">汇总</a>
                     </div>
                 </div>
             </div>
@@ -67,16 +74,16 @@
             <asp:BoundField DataField="NetSalary" HeaderText="实发工资" DataFormatString="{0:N2}"
                 ItemStyle-ForeColor="#2b8cbe" ItemStyle-Font-Bold="true" />
             <asp:BoundField DataField="PayDate" HeaderText="发薪日" DataFormatString="{0:yyyy-MM-dd}" />
-            <asp:TemplateField HeaderText="操作" ItemStyle-Width="60">
+            <asp:TemplateField HeaderText="操作" ItemStyle-Width="60" ItemStyle-CssClass="no-print" HeaderStyle-CssClass="no-print">
                 <ItemTemplate>
                     <asp:LinkButton runat="server" CommandName="DeleteRow" CommandArgument='<%# Eval("SalaryId") %>'
                         CausesValidation="false"
                         CssClass="btn btn-xs btn-danger" Text="删除"
-                        OnClientClick="return confirm('确认删除该工资记录？')" />
+                        OnClientClick="return confirm('确认删除该工资记录？');" />
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>
-        <PagerStyle CssClass="pagination-ys" HorizontalAlign="Center" />
+        <PagerStyle CssClass="pagination-ys no-print" HorizontalAlign="Center" />
     </asp:GridView>
     </div>
 </asp:Content>

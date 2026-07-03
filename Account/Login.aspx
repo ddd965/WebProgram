@@ -28,6 +28,28 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <asp:Label runat="server" AssociatedControlID="txtCaptcha" CssClass="col-md-3 control-label">验证码</asp:Label>
+                    <div class="col-md-5">
+                        <asp:TextBox runat="server" ID="txtCaptcha" CssClass="form-control" placeholder="请输入计算结果" MaxLength="10" />
+                        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCaptcha"
+                            CssClass="text-danger" ErrorMessage="请输入验证码" Display="Dynamic" />
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="form-control" style="background:#f7f7f7;font-weight:bold;text-align:center;font-family:Consolas,monospace;">
+                                <asp:Literal runat="server" ID="litCaptcha" />
+                            </span>
+                            <span class="input-group-btn">
+                                <asp:LinkButton runat="server" ID="lbtnRefreshCaptcha"
+                                    CssClass="btn btn-default" CausesValidation="false"
+                                    OnClick="lbtnRefreshCaptcha_Click" ToolTip="换一题"
+                                    Text="&#x1F504;" />
+                            </span>
+                        </div>
+                        <small class="text-muted">请计算左侧算式的结果</small>
+                    </div>
+                </div>
+                <div class="form-group">
                     <div class="col-md-offset-3 col-md-9">
                         <asp:Button runat="server" OnClick="LogIn" Text="登 录" CssClass="btn btn-primary btn-block" />
                     </div>

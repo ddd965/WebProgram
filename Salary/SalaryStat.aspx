@@ -1,4 +1,4 @@
-﻿<%@ Page Title="部门工资汇总 + 发薪历史" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="SalaryStat.aspx.cs" Inherits="Salary_SalaryStat" %>
+<%@ Page Title="部门工资汇总 + 发薪历史" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="SalaryStat.aspx.cs" Inherits="Salary_SalaryStat" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h2>部门工资汇总与发薪历史（支持导出 CSV）</h2>
@@ -57,7 +57,7 @@
     <div class="panel panel-default" style="page-break-inside:avoid;">
         <div class="panel-heading">薪资趋势图</div>
         <div class="panel-body">
-            <canvas id="salaryChart" height="90"></canvas>
+            <canvas id="salaryChart" height="90" style="image-rendering:-webkit-optimize-contrast;image-rendering:crisp-edges;-webkit-print-color-adjust:exact;print-color-adjust:exact;"></canvas>
         </div>
     </div>
     <asp:HiddenField runat="server" ID="hidLabels" />

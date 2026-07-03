@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -31,8 +31,15 @@ public partial class Attendance_AttendanceStat : HRMS.Common.BasePage
             for (int m = 1; m <= 12; m++)
                 ddlMonth.Items.Add(new ListItem(m + "月", m.ToString()));
 
-            // 默认 2026-05 或今天所在月（若已经到了）
-            var def = DateTime.Today < StartDate ? StartDate : DateTime.Today;
+            // ================================================================
+            //  默认月 = 上个月完整数据（HR 惯例）
+            //  例：今天 2026-07-03 → 默认 2026-06，
+            //      6 月是完整月（30 天、22 工作日），用户想看的一定是上个月全量
+            //      而不是 7 月才过了 3 天、几乎所有员工都"缺勤 3 天"的不完整视图
+            //  最早不超过 StartDate(2026-05)
+            // ================================================================
+            var def = DateTime.Today.AddMonths(-1);
+            if (def < StartDate) def = StartDate;
             ddlYear.SelectedValue = def.Year.ToString();
             ddlMonth.SelectedValue = def.Month.ToString();
 
@@ -66,88 +73,58 @@ public partial class Attendance_AttendanceStat : HRMS.Common.BasePage
         var ms = new DateTime(year, month, 1);
         int daysInMonth = DateTime.DaysInMonth(year, month);
 
-        // 取员工列表（按部门过滤）
-        var emps = EmployeeBLL.Query(null, null, deptId, null, null);
-        // 若没填在职状态，再过滤一遍部门
-        if (!deptId.HasValue)
-            emps = emps.Where(x => x.Status == "在职").ToList();
-        else
-            emps = emps.Where(x => x.Status == "在职" && x.DeptId == deptId.Value).ToList();
-
-        // 部门经理视图可能没有 deptId 但要限制，这里重新按 deptId 处理
-        if (deptId.HasValue)
-            emps = emps.Where(x => x.DeptId == deptId.Value).ToList();
-        else
-            emps = emps.Where(x => x.Status == "在职").ToList();
-
-        // 建部门ID->名字缓存
-        var deptNameMap = new Dictionary<int, string>();
-        foreach (var d in DepartmentBLL.GetAll())
-            deptNameMap[d.DeptId] = d.DeptName;
-
-        var dt = new DataTable();
-        dt.Columns.Add("EmpNo", typeof(string));
-        dt.Columns.Add("EmpName", typeof(string));
-        dt.Columns.Add("DeptName", typeof(string));
-        dt.Columns.Add("NormalDays", typeof(int));
-        dt.Columns.Add("LateCount", typeof(int));
-        dt.Columns.Add("EarlyCount", typeof(int));
-        dt.Columns.Add("AbsentCount", typeof(int));
-        dt.Columns.Add("LeaveCount", typeof(int));
-
-        var from = new DateTime(year, month, 1);
-        var to = from.AddMonths(1).AddDays(-1);
-
-        foreach (var emp in emps)
+        // ======== 计算本月工作日(非周末)：5项和 = 工作日 ========
+        // 规则：
+        //  - 已完结月(或更早)：workDays = 整月工作日(总天数-周末天数)
+        //  - 当前月未过完：   workDays = 本月1号~今天为止的工作日数
+        //  - 未来月：         workDays = 0
+        var today = DateTime.Today;
+        int workDaysInFull = 0;
+        for (int d = 1; d <= daysInMonth; d++)
         {
-            // 迟到/早退/缺勤 读取考勤统计数据（Attendance table）
-            var attList = AttendanceBLL.QueryByMonth(emp.EmpId, year, month);
-            int late = attList.Count(a => a.Status == "迟到");
-            int early = attList.Count(a => a.Status == "早退");
-            int absent = attList.Count(a => a.Status == "缺勤");
-            // 注意：正常不计入 Attendance 的正常，因为 Leave 单独计算，最后 NormalDays = 当月总 - (late+early+absent+leave)
-
-            // 请假天数读取休假统计数据（LeaveRecord，已批准）
-            var leaves = LeaveRecordBLL.Query(emp.EmpId, null, from, to, "已批准");
-            int leaveDays = 0;
-            if (leaves != null)
-            {
-                foreach (var lv in leaves)
-                {
-                    leaveDays += CountLeaveDaysInMonth(lv, year, month);
-                }
-            }
-
-            // 保证：正常+迟到+早退+缺勤+请假 = 当月总天数
-            int normal = daysInMonth - late - early - absent - leaveDays;
-            if (normal < 0) normal = 0; // 防御
-
-            string deptName = emp.DeptId.HasValue && deptNameMap.ContainsKey(emp.DeptId.Value)
-                ? deptNameMap[emp.DeptId.Value] : "未分配";
-
-            dt.Rows.Add(emp.EmpNo, emp.EmpName, deptName, normal, late, early, absent, leaveDays);
+            var dateTmp = new DateTime(year, month, d);
+            if (dateTmp.DayOfWeek != DayOfWeek.Saturday && dateTmp.DayOfWeek != DayOfWeek.Sunday)
+                workDaysInFull++;
         }
 
-        gvStat.DataSource = dt;
+        int workDaysDisplay;
+        string stage;
+        if (year < today.Year || (year == today.Year && month < today.Month))
+        {
+            workDaysDisplay = workDaysInFull;
+            stage = "已完结月";
+        }
+        else if (year == today.Year && month == today.Month)
+        {
+            int wd = 0;
+            for (int d = 1; d <= today.Day; d++)
+            {
+                var dateTmp = new DateTime(year, month, d);
+                if (dateTmp.DayOfWeek != DayOfWeek.Saturday && dateTmp.DayOfWeek != DayOfWeek.Sunday)
+                    wd++;
+            }
+            workDaysDisplay = wd;
+            stage = "当前月未过完，截至" + today.ToString("yyyy-MM-dd");
+        }
+        else
+        {
+            workDaysDisplay = 0;
+            stage = "未来月";
+        }
+
+        string dayRuleMsg = stage + "：正常+迟到+早退+缺勤+请假 = 工作日 " + workDaysDisplay + " 天（总" + daysInMonth + "天-周末" + (daysInMonth - workDaysInFull) + "天）";
+
+        // =========== 统计核心：调用 BLL 统一口径 ===========
+        // （不再在页面重复实现，彻底避免 CS0136 dt 内外层重名 & 报表口径不一致）
+        DataTable statDt = AttendanceBLL.StatMonthly(deptId, year, month);
+
+        gvStat.DataSource = statDt;
         gvStat.DataBind();
 
         if (ms < StartDate)
-            lblMsg.Text = $"{year}年{month}月：2026-05 之前无签到记录；已按「正常=当月{daysInMonth}天-迟到-早退-缺勤-请假」显示基础统计。共 {dt.Rows.Count} 位员工。";
+            lblMsg.Text = year + "年" + month + "月：2026-05 之前无签到记录（" + dayRuleMsg + "）。共 " + statDt.Rows.Count + " 位员工。";
         else
-            lblMsg.Text = $"{year}年{month}月 共 {dt.Rows.Count} 位员工考勤统计（正常+迟到+早退+缺勤+请假 = 当月 {daysInMonth} 天）。";
-    }
-
-    /// <summary>
-    /// 按请假单 overlap 当月日期的天数（含开始/结束两天）；不考虑周末/节假日，保持与明细页一致
-    /// </summary>
-    private int CountLeaveDaysInMonth(LeaveRecord lv, int year, int month)
-    {
-        var monthStart = new DateTime(year, month, 1);
-        var monthEnd = monthStart.AddMonths(1).AddDays(-1);
-        var s = lv.StartDate < monthStart ? monthStart : lv.StartDate;
-        var e = lv.EndDate > monthEnd ? monthEnd : lv.EndDate;
-        if (e < s) return 0;
-        return (int)(e - s).TotalDays + 1;
+            lblMsg.Text = year + "年" + month + "月 共 " + statDt.Rows.Count + " 位员工考勤统计（" + dayRuleMsg + "）。";
     }
 
     protected void gvStat_PageIndexChanging(object sender, GridViewPageEventArgs e)

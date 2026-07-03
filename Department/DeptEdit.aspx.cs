@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using HRMS.BLL;
 using HRMS.Model;
 
@@ -74,7 +74,8 @@ public partial class Department_DeptEdit : HRMS.Common.BasePage
         var dept = new Department
         {
             DeptName = txtDeptName.Text.Trim(),
-            ParentId = string.IsNullOrEmpty(ddlParent.SelectedValue) ? (int?)null : int.Parse(ddlParent.SelectedValue),
+            // 按需求：所有部门平级，无上下级关系 → 强制 ParentId = null
+            ParentId = null,
             ManagerId = string.IsNullOrEmpty(ddlManager.SelectedValue) ? (int?)null : int.Parse(ddlManager.SelectedValue),
             Descn = txtDescn.Text.Trim()
         };

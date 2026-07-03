@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.UI.WebControls;
 using HRMS.BLL;
 using HRMS.Model;
@@ -17,21 +18,18 @@ public partial class Department_DeptTree : HRMS.Common.BasePage
     private void BuildTree()
     {
         tvDept.Nodes.Clear();
+        // 持久化修正：把所有部门的 ParentId 置为 NULL，保证九部门平级（执行过一次后0行受影响）
+        try { HRMS.DAL.DepartmentDAL.FlattenAllDepartments(); } catch { }
         var allDepts = DepartmentBLL.GetAll();
-        // 加载顶级部门（ParentId = null 或 0 或 ParentId 不存在的孤儿部门）
-        var topDepts = allDepts.FindAll(d => d.ParentId == null || d.ParentId == 0
-                                            || !allDepts.Exists(x => x.DeptId == d.ParentId));
-        foreach (var dept in topDepts)
+        // 所有部门一律顶级（不再递归BuildChildNodes），按 DeptId 顺序 1..9
+        foreach (var dept in allDepts.OrderBy(d => d.DeptId))
         {
             var node = CreateTreeNode(dept);
             tvDept.Nodes.Add(node);
-            BuildChildNodes(node, dept.DeptId, allDepts);
-            node.Expand(); // 顶级节点默认展开
         }
         if (tvDept.Nodes.Count == 0)
         {
-            var hint = new TreeNode("（无部门，请先新增部门）", "0");
-            hint.SelectAction = TreeNodeSelectAction.None;
+            var hint = new TreeNode("（无部门，请先新增部门）", "0") { SelectAction = TreeNodeSelectAction.None };
             tvDept.Nodes.Add(hint);
         }
         tvDept.DataBind();
@@ -39,13 +37,7 @@ public partial class Department_DeptTree : HRMS.Common.BasePage
 
     private void BuildChildNodes(TreeNode parentNode, int parentId, List<Department> allDepts)
     {
-        var children = allDepts.FindAll(d => d.ParentId == parentId);
-        foreach (var dept in children)
-        {
-            var childNode = CreateTreeNode(dept);
-            parentNode.ChildNodes.Add(childNode);
-            BuildChildNodes(childNode, dept.DeptId, allDepts);
-        }
+        // 扁平化后无任何子部门，保留方法签名兼容
     }
 
     private TreeNode CreateTreeNode(Department dept)

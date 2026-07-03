@@ -11,6 +11,8 @@ public partial class Report_LeaveOvertimeRpt : HRMS.Common.BasePage
 {
     private List<LeaveOtRow> _lastRows;
 
+    private static readonly DateTime RptStartDate = new DateTime(2026, 6, 1);
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsInRole("管理员", "部门经理"))
@@ -23,10 +25,18 @@ public partial class Report_LeaveOvertimeRpt : HRMS.Common.BasePage
             var depts = DepartmentBLL.GetAll();
             foreach (var d in depts)
                 ddlDept.Items.Add(new ListItem(d.DeptName, d.DeptId.ToString()));
-            int y = DateTime.Now.Year;
-            for (int i = y - 3; i <= y; i++)
+
+            int curY = DateTime.Now.Year;
+            int fromY = Math.Min(2026, curY);
+            int toY = Math.Max(2026, curY) + 1;
+            for (int i = fromY; i <= toY; i++)
                 ddlYear.Items.Add(new ListItem(i + "年", i.ToString()));
-            ddlYear.SelectedValue = y.ToString();
+
+            // 默认选有数据的最近一个月（不要选未来/空月）
+            var def = DateTime.Today < RptStartDate ? RptStartDate : DateTime.Today;
+            ddlYear.SelectedValue = def.Year.ToString();
+            ddlMonth.SelectedValue = def.Month.ToString();
+
             DoGen();
         }
     }
@@ -43,20 +53,20 @@ public partial class Report_LeaveOvertimeRpt : HRMS.Common.BasePage
                 lblMsg.Text = "⚠ 无可导出数据。"; return;
             }
             var sb = new StringBuilder();
-            sb.AppendLine("分组,ColA,ColB,ColC,合计,次数,金额");
+            sb.AppendLine("分组,ColA,ColB,ColC,合计,次数");
             foreach (var r in _lastRows)
             {
-                sb.AppendFormat("\"{0}\",{1},{2},{3},{4},{5},{6}\r\n",
-                    r.GroupKey, r.ColA, r.ColB, r.ColC, r.Total, r.Count, r.Amount.ToString("N2"));
+                sb.AppendFormat("\"{0}\",{1},{2},{3},{4},{5}\r\n",
+                    r.GroupKey, r.ColA, r.ColB, r.ColC, r.Total, r.Count);
             }
             byte[] bom = new byte[] { 0xEF, 0xBB, 0xBF };
             byte[] buf = Encoding.UTF8.GetBytes(sb.ToString());
             Response.Clear();
             Response.ContentType = "text/csv; charset=utf-8";
-            Response.AddHeader("Content-Disposition", $"attachment; filename=LeaveOtRpt_{DateTime.Now:yyyyMMdd_HHmm}.csv");
+            Response.AddHeader("Content-Disposition", "attachment; filename=LeaveOtRpt_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".csv");
             Response.BinaryWrite(bom.Concat(buf).ToArray());
             Response.Flush(); Response.End();
-            WriteLog.Write(CurrentUserName, "导出", $"导出休假/加班报表 {_lastRows.Count} 行");
+            WriteLog.Write(CurrentUserName, "导出", "导出休假/加班报表 " + _lastRows.Count + " 行");
         }
         catch (Exception ex) { lblMsg.Text = "⚠ 导出失败：" + ex.Message; }
     }
@@ -88,15 +98,15 @@ public partial class Report_LeaveOvertimeRpt : HRMS.Common.BasePage
             var typeCache = new Dictionary<int, LeaveType>();
             Func<int, string> typeName = id =>
             {
-                if (typeCache.ContainsKey(id)) return typeCache[id]?.TypeName ?? "?";
+                if (typeCache.ContainsKey(id)) return typeCache[id] == null ? "?" : (typeCache[id].TypeName ?? "?");
                 var t = LeaveTypeBLL.GetById(id);
                 typeCache[id] = t;
-                return t?.TypeName ?? "?";
+                return t == null ? "?" : (t.TypeName ?? "?");
             };
             foreach (var l in leaves)
             {
                 var emp = empDict[l.EmpId];
-                string key = $"{emp.EmpName} ({emp.EmpNo})";
+                string key = emp.EmpName + " (" + emp.EmpNo + ")";
                 var r = rows.FirstOrDefault(x => x.GroupKey == key);
                 if (r == null) { r = new LeaveOtRow { GroupKey = key }; rows.Add(r); }
                 r.Count++; r.Total += l.LeaveDays;
@@ -114,7 +124,7 @@ public partial class Report_LeaveOvertimeRpt : HRMS.Common.BasePage
             foreach (var o in ots)
             {
                 var emp = empDict[o.EmpId];
-                string key = $"{emp.EmpName} ({emp.EmpNo})";
+                string key = emp.EmpName + " (" + emp.EmpNo + ")";
                 var r = rows.FirstOrDefault(x => x.GroupKey == key);
                 if (r == null) { r = new LeaveOtRow { GroupKey = key }; rows.Add(r); }
                 r.Count++; r.Total += o.OtHours;
@@ -146,10 +156,9 @@ public partial class Report_LeaveOvertimeRpt : HRMS.Common.BasePage
             gvRpt.FooterRow.Cells[3].Text = rows.Sum(r => r.ColC).ToString("0.#");
             gvRpt.FooterRow.Cells[4].Text = rows.Sum(r => r.Total).ToString("0.#");
             gvRpt.FooterRow.Cells[5].Text = rows.Sum(r => r.Count).ToString();
-            gvRpt.FooterRow.Cells[6].Text = "¥" + rows.Sum(r => r.Amount).ToString("N2");
         }
 
-        lblMsg.Text = $"{(type == "leave" ? "休假" : "加班")}报表：{from:yyyy-MM-dd}~{to:yyyy-MM-dd}，共 {rows.Count} 位员工。";
+        lblMsg.Text = (type == "leave" ? "休假" : "加班") + "报表：" + from.ToString("yyyy-MM-dd") + "~" + to.ToString("yyyy-MM-dd") + "，共 " + rows.Count + " 位员工。";
         litGenTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
         litOperator.Text = CurrentUserName;
     }

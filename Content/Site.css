@@ -1,4 +1,4 @@
-﻿/* Move down content because we have a fixed navbar that is 50px tall */
+/* Move down content because we have a fixed navbar that is 50px tall */
 body {
     padding-top: 50px;
     padding-bottom: 20px;
@@ -28,31 +28,63 @@ textarea {
     }
 }
 
-/* ====== 打印样式 @media print - 在线打印 ====== */
+/* ====== 打印样式 @media print - 保留彩色 / 在线打印 ====== */
 @media print {
-    /* 隐藏导航栏、页脚、侧边栏及交互控件 */
+    /* ★★ 全局强制保留彩色（Chrome 默认 economy 模式会把 Canvas/背景色自动灰阶化）★★ */
+    *, *::before, *::after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+    html, body {
+        background: #fff !important;   /* 页面底色保留白色 */
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* 隐藏导航栏、页脚、侧边栏及交互控件（保持不变）*/
     body { padding-top: 0 !important; padding-bottom: 0 !important; }
     .navbar, .no-print, .btn, .btn-group, input[type="button"], .pagination-ys,
     a.btn, a[href]:after { display: none !important; }
 
-    /* 显示正常超链接不显示 URL */
-    a { text-decoration: none; color: #000; }
+    /* 显示正常超链接 — 保留页面原有颜色（不再强制 #000 纯黑）*/
+    a { text-decoration: none; color: inherit; }
 
-    /* 面板去边框阴影 */
+    /* 面板/表格：保留屏幕显示的原色（不再强制 #f5f5f5 灰底）*/
     .panel, .table-responsive { border: 0; box-shadow: none; }
     .panel-heading {
-        background-color: #f5f5f5 !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-        border-bottom: 1px solid #333;
+        background-color: inherit !important;     /* ★ 保留屏幕上的真实颜色，不再统一打浅灰 */
+        color: inherit !important;
+        border-bottom: 1px solid #ddd;            /* 与屏幕一致：浅灰边框（不再 #333 深黑边）*/
         font-weight: bold;
     }
+    .panel-body {
+        background-color: inherit !important;
+        color: inherit !important;
+    }
 
-    /* 表格：打印时完整输出（不分页断裂） */
+    /* Canvas 图表：彩条、彩饼不被 Chrome 灰阶化 */
+    canvas, .chart-container, canvas + div {
+        image-rendering: -webkit-optimize-contrast !important;
+        image-rendering: crisp-edges !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* 表格：打印时完整输出（不分页断裂）+ 保留条纹背景色 */
     table { page-break-inside: auto; font-size: 12px; }
     tr { page-break-inside: avoid; page-break-after: auto; }
     thead { display: table-header-group; }
     tfoot { display: table-footer-group; }
+    .table th, .table td, .table thead th, .table tfoot th {
+        background-color: inherit !important;
+        color: inherit !important;
+        border-color: #ddd !important;
+    }
+    /* ★ 恢复 table-striped 的斑马条纹（打印时 economy 默认把浅色条纹全白）★ */
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #f9f9f9 !important;
+    }
 
     /* 面板/卡片 防止跨页切断 */
     .panel, .panel-default, div[style*="page-break-inside:avoid"],

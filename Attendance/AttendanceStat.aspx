@@ -57,7 +57,7 @@
             <asp:BoundField DataField="AbsentCount" HeaderText="缺勤" ItemStyle-CssClass="text-danger" />
             <asp:BoundField DataField="LeaveCount" HeaderText="请假" ItemStyle-CssClass="text-info" />
         </Columns>
-        <PagerStyle CssClass="pagination-ys" HorizontalAlign="Center" />
+        <PagerStyle CssClass="pagination-ys no-print" HorizontalAlign="Center" />
     </asp:GridView>
     </div>
 </asp:Content>
